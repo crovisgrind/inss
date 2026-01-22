@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz INSS 2022 - Estudo Gamificado</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 30px;
+            margin-bottom: 20px;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-box.timer {
+            background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+        }
+
+        .stat-box.timer.warning {
+            animation: timerPulse 1s infinite;
+        }
+
+        @keyframes timerPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .timer-icon {
+            font-size: 16px;
+            margin-right: 5px;
+        }
+
+        .progress-bar {
+            background: #f0f0f0;
+            height: 8px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+
+        .question-card {
+            margin-bottom: 25px;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .question-number {
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .subject-tag {
+            background: #f0f0f0;
+            color: #666;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+
+        .context-box {
+            background: #f8f9ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #444;
+        }
+
+        .question-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .answer-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .answer-btn {
+            padding: 18px;
+            border: 3px solid #e0e0e0;
+            background: white;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .answer-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .answer-btn.correct {
+            background: #4ade80;
+            border-color: #22c55e;
+            color: white;
+            animation: pulse 0.5s ease;
+        }
+
+        .answer-btn.wrong {
+            background: #f87171;
+            border-color: #ef4444;
+            color: white;
+            animation: shake 0.5s ease;
+        }
+
+        .answer-btn.disabled {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        .feedback.correct {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .feedback.wrong {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .next-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            display: none;
+        }
+
+        .next-btn.show {
+            display: block;
+        }
+
+        .next-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .result-screen {
+            text-align: center;
+            display: none;
+        }
+
+        .result-screen.show {
+            display: block;
+        }
+
+        .result-emoji {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .result-title {
+            font-size: 32px;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .result-stats {
+            background: #f8f9ff;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+
+        .result-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .result-stat:last-child {
+            border-bottom: none;
+        }
+
+        .restart-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .restart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .start-screen {
+            text-align: center;
+        }
+
+        .start-screen.hide {
+            display: none;
+        }
+
+        .start-emoji {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .start-title {
+            font-size: 28px;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .start-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .start-btn {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .question-text {
+                font-size: 15px;
+            }
+
+            .answer-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <!-- Tela Inicial -->
+            <div class="start-screen" id="startScreen">
+                <div class="start-emoji">🎯</div>
+                <h1 class="start-title">Quiz INSS 2022</h1>
+                <p class="start-description">
+                    Teste seus conhecimentos com 70 questões de Conhecimentos Específicos do concurso INSS 2022 (CEBRASPE).
+                    <br><br>
+                    <strong>Formato:</strong> Certo ou Errado<br>
+                    <strong>Pontuação:</strong> +10 pontos por acerto
+                </p>
+                <button class="start-btn" onclick="startQuiz()">🚀 Começar Quiz</button>
+            </div>
+
+            <!-- Header do Quiz -->
+            <div class="header" id="quizHeader" style="display: none;">
+                <h1>📚 Quiz INSS 2022</h1>
+                <p>Conhecimentos Específicos - CEBRASPE</p>
+            </div>
+
+            <!-- Estatísticas -->
+            <div class="stats" id="stats" style="display: none;">
+                <div class="stat-box">
+                    <div class="stat-label">Questão</div>
+                    <div class="stat-value" id="currentQuestion">1</div>
+                </div>
+                <div class="stat-box timer" id="timerBox">
+                    <div class="stat-label">Tempo</div>
+                    <div class="stat-value">
+                        <span class="timer-icon">⏱️</span>
+                        <span id="timer">60</span>s
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Pontos</div>
+                    <div class="stat-value" id="score">0</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Acertos</div>
+                    <div class="stat-value" id="correct">0</div>
+                </div>
+            </div>
+
+            <!-- Barra de Progresso -->
+            <div class="progress-bar" id="progressBar" style="display: none;">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+
+            <!-- Área da Questão -->
+            <div id="questionArea" style="display: none;">
+                <div class="question-card">
+                    <div class="question-header">
+                        <span class="question-number" id="questionNum">Questão 51</span>
+                        <span class="subject-tag" id="subject">Assunto</span>
+                    </div>
+                    
+                    <div class="context-box" id="contextBox"></div>
+                    
+                    <div class="question-text" id="questionText"></div>
+                    
+                    <div class="answer-buttons">
+                        <button class="answer-btn" onclick="checkAnswer('C')">
+                            ✓ CERTO
+                        </button>
+                        <button class="answer-btn" onclick="checkAnswer('E')">
+                            ✗ ERRADO
+                        </button>
+                    </div>
+                </div>
+
+                <div class="feedback" id="feedback"></div>
+                
+                <button class="next-btn" id="nextBtn" onclick="nextQuestion()">
+                    Próxima Questão →
+                </button>
+            </div>
+
+            <!-- Tela de Resultado -->
+            <div class="result-screen" id="resultScreen">
+                <div class="result-emoji" id="resultEmoji">🎉</div>
+                <h2 class="result-title">Quiz Finalizado!</h2>
+                
+                <div class="result-stats">
+                    <div class="result-stat">
+                        <span>Total de Questões:</span>
+                        <strong id="totalQuestions">70</strong>
+                    </div>
+                    <div class="result-stat">
+                        <span>Acertos:</span>
+                        <strong id="finalCorrect" style="color: #22c55e;">0</strong>
+                    </div>
+                    <div class="result-stat">
+                        <span>Erros:</span>
+                        <strong id="finalWrong" style="color: #ef4444;">0</strong>
+                    </div>
+                    <div class="result-stat">
+                        <span>Aproveitamento:</span>
+                        <strong id="percentage" style="color: #667eea;">0%</strong>
+                    </div>
+                    <div class="result-stat">
+                        <span>Pontuação Final:</span>
+                        <strong id="finalScore" style="color: #667eea; font-size: 24px;">0</strong>
+                    </div>
+                </div>
+                
+                <button class="restart-btn" onclick="restartQuiz()">🔄 Reiniciar Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questoes = [
+  
+    {
+      "numero": 51,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Fontes de legislação previdenciária",
+      "enunciado_contexto": "Acerca das fontes de legislação previdenciária, de sua organização e evolução histórica, julgue os itens que se seguem.",
+      "enunciado": "A Constituição Federal é considerada uma fonte formal primária do direito previdenciário brasileiro.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 52,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Fontes de legislação previdenciária",
+      "enunciado_contexto": "Acerca das fontes de legislação previdenciária, de sua organização e evolução histórica, julgue os itens que se seguem.",
+      "enunciado": "A Constituição outorgada por Getúlio Vargas em 1937, conhecida como Constituição Polaca, é considerada o marco do direito previdenciário brasileiro, pois foi ela que consolidou a legislação previdenciária no Brasil.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 53,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Fontes de legislação previdenciária",
+      "enunciado_contexto": "Acerca das fontes de legislação previdenciária, de sua organização e evolução histórica, julgue os itens que se seguem.",
+      "enunciado": "Os benefícios e serviços prestados pela seguridade social são exclusivos daqueles que participam do seu custeio.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 54,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Princípios da seguridade social",
+      "enunciado_contexto": "Em relação aos princípios da seguridade social, integração da legislação previdenciária e conceito de seguridade social, julgue os itens a seguir.",
+      "enunciado": "O princípio da seguridade social que estabelece que a contribuição social para o custeio do regime geral de previdência social deve ser proporcional à condição financeira dos seus contribuintes denomina-se equidade na forma de participação no custeio.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 55,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Princípios da seguridade social",
+      "enunciado_contexto": "Em relação aos princípios da seguridade social, integração da legislação previdenciária e conceito de seguridade social, julgue os itens a seguir.",
+      "enunciado": "A assistência social integra a seguridade social, cujos programas são coordenados e executados pelas esferas estadual e municipal, com recursos do orçamento da seguridade social, bem como por entidades beneficentes e de assistência social.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 56,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Princípios da seguridade social",
+      "enunciado_contexto": "Em relação aos princípios da seguridade social, integração da legislação previdenciária e conceito de seguridade social, julgue os itens a seguir.",
+      "enunciado": "Caso haja lacuna na legislação, o intérprete poderá valer-se de analogia, costumes e princípios gerais do direito como instrumentos integrativos para resolver questões referentes a matéria previdenciária.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 57,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Filiação e inscrição no RGPS",
+      "enunciado_contexto": "No que se refere à filiação e à inscrição no regime geral de previdência social (RGPS), julgue os itens subsequentes.",
+      "enunciado": "O dependente do segurado do regime geral de previdência social (RGPS) pode, nessa condição, efetuar a sua inscrição junto ao INSS no momento em que este tiver de se habilitar ao recebimento do benefício a que faz jus.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 58,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Filiação e inscrição no RGPS",
+      "enunciado_contexto": "No que se refere à filiação e à inscrição no regime geral de previdência social (RGPS), julgue os itens subsequentes.",
+      "enunciado": "Presentes os pressupostos da filiação, é admitida a inscrição post mortem de segurado contribuinte individual e de segurado facultativo, mas não é admitida a inscrição post mortem de segurado especial.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 59,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Filiação e inscrição no RGPS",
+      "enunciado_contexto": "No que se refere à filiação e à inscrição no regime geral de previdência social (RGPS), julgue os itens subsequentes.",
+      "enunciado": "Suponha que um estudante de quinze anos de idade pretenda se inscrever no regime geral de previdência social (RGPS) na condição de segurado facultativo. Nessa situação, a inscrição não será possível em decorrência da idade do estudante.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 60,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Aplicação da norma previdenciária",
+      "enunciado_contexto": "No que se refere à aplicação da norma previdenciária, à seguridade social e ao empregador doméstico, julgue os próximos itens.",
+      "enunciado": "Suponha que o Executivo federal tenha editado um decreto para regular matéria referente à criação de um novo benefício previdenciário e ao aumento da contribuição para arcar com o custeio do benefício criado. Nesse caso, tanto o segurado pode exigir a imediata concessão do benefício instituído quanto a previdência pode exigir o imediato pagamento da alíquota majorada.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 61,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Aplicação da norma previdenciária",
+      "enunciado_contexto": "No que se refere à aplicação da norma previdenciária, à seguridade social e ao empregador doméstico, julgue os próximos itens.",
+      "enunciado": "Suponha que um servidor público de carreira do Poder Judiciário de determinada unidade da Federação tenha sido nomeado para exercer um cargo em comissão junto a uma fundação pública federal, momento em que tenha optado por continuar recebendo remuneração do órgão em que exerça cargo efetivo. Nessa situação hipotética, em decorrência do cargo que passou a exercer na fundação pública, o referido servidor passa a integrar a condição de segurado obrigatório do RGPS.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 62,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Empregador doméstico",
+      "enunciado_contexto": "No que se refere à aplicação da norma previdenciária, à seguridade social e ao empregador doméstico, julgue os próximos itens.",
+      "enunciado": "Suponha que o proprietário de uma fazenda de produção de leite e gado de corte para o comércio local tenha contratado um indivíduo para exercer as funções de caseiro e gestor da fazenda. Nesse caso hipotético, para efeito previdenciário, o referido contratante é considerado empregador doméstico.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 63,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Contribuinte individual e segurado facultativo",
+      "enunciado_contexto": "A respeito do contribuinte individual, do segurado especial e do segurado facultativo, julgue os itens seguintes.",
+      "enunciado": "Suponha-se que, para complementar a renda familiar, Flávio, servidor público federal, exerça eventualmente atividade como motorista de aplicativo. Nessa situação hipotética, na condição de motorista de aplicativo, Flávio é considerado segurado obrigatório do RGPS.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 64,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Contribuinte individual e segurado facultativo",
+      "enunciado_contexto": "A respeito do contribuinte individual, do segurado especial e do segurado facultativo, julgue os itens seguintes.",
+      "enunciado": "Suponha-se que Pedro, após ter trabalhado como empregado contratado em determinada empresa privada por cerca de 20 anos, tenha deixado de exercer atividade remunerada e passado a se dedicar exclusivamente ao lar e a seus filhos, em razão de seu companheiro possuir renda para arcar com as despesas da família. Nesse caso hipotético, Pedro poderá manter o vínculo com o RGPS após o período de graça, desde que proceda à sua filiação na condição de segurado facultativo.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 65,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Contribuinte individual e segurado facultativo",
+      "enunciado_contexto": "A respeito do contribuinte individual, do segurado especial e do segurado facultativo, julgue os itens seguintes.",
+      "enunciado": "Suponha que Matilde, moradora no interior da Amazônia, utilizando-se de embarcação de pequeno porte, faça da pesca artesanal seu principal meio de vida. Nesse caso hipotético, para se filiar ao RGPS, Matilde poderá fazer a sua inscrição como segurada facultativa.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 66,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Financiamento da seguridade social",
+      "enunciado_contexto": "A respeito do financiamento da seguridade social, julgue os itens subsequentes.",
+      "enunciado": "A licença-prêmio indenizada integra o salário de contribuição, nos termos da legislação.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 67,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Financiamento da seguridade social",
+      "enunciado_contexto": "A respeito do financiamento da seguridade social, julgue os itens subsequentes.",
+      "enunciado": "As igrejas e os templos de qualquer culto são isentos de contribuições para a seguridade social.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 68,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Financiamento da seguridade social",
+      "enunciado_contexto": "A respeito do financiamento da seguridade social, julgue os itens subsequentes.",
+      "enunciado": "Os devedores da previdência social não podem receber benefícios ou incentivos fiscais ou creditícios do Estado.",
+      "gabarito": "X"
+    },
+    {
+      "numero": 69,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Financiamento da seguridade social",
+      "enunciado_contexto": "A respeito do financiamento da seguridade social, julgue os itens subsequentes.",
+      "enunciado": "Os contribuintes individual e facultativo podem optar pela alíquota de 11% incidente sobre o salário de contribuição caso renunciem ao direito à aposentadoria por tempo de contribuição.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 70,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Financiamento da seguridade social",
+      "enunciado_contexto": "A respeito do financiamento da seguridade social, julgue os itens subsequentes.",
+      "enunciado": "O percentual incidente sobre o resultado dos leilões dos bens apreendidos pelo Departamento da Receita Federal é fonte de receita da seguridade social, segundo a legislação.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 71,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Recolhimento e reajustamento de benefícios",
+      "enunciado_contexto": "Acerca do recolhimento e do reajustamento de benefícios, bem como das competências do INSS e da Secretaria da Receita Federal do Brasil, julgue os itens a seguir.",
+      "enunciado": "Os trabalhadores avulsos que prestam serviços a empresas e os contribuintes individual e facultativo devem recolher as contribuições à previdência social por conta própria.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 72,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Recolhimento e reajustamento de benefícios",
+      "enunciado_contexto": "Acerca do recolhimento e do reajustamento de benefícios, bem como das competências do INSS e da Secretaria da Receita Federal do Brasil, julgue os itens a seguir.",
+      "enunciado": "Compete ao INSS planejar, executar, acompanhar e avaliar as atividades relativas à tributação, à fiscalização, à arrecadação, à cobrança e ao recolhimento das contribuições previdenciárias.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 73,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Recolhimento e reajustamento de benefícios",
+      "enunciado_contexto": "Acerca do recolhimento e do reajustamento de benefícios, bem como das competências do INSS e da Secretaria da Receita Federal do Brasil, julgue os itens a seguir.",
+      "enunciado": "Os valores do salário de contribuição equivalem à renda mensal dos benefícios previdenciários.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 74,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Recolhimento e reajustamento de benefícios",
+      "enunciado_contexto": "Acerca do recolhimento e do reajustamento de benefícios, bem como das competências do INSS e da Secretaria da Receita Federal do Brasil, julgue os itens a seguir.",
+      "enunciado": "Os valores do salário de contribuição e dos benefícios de prestação continuada da previdência social são reajustados na mesma época e nos mesmos índices.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 75,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Decadência e prescrição",
+      "enunciado_contexto": "Paulo aposentou-se por invalidez em 5 de dezembro de 2015. Joaquim obteve, fraudulentamente, benefício previdenciário em 5 de dezembro de 2015. Matias sofreu acidente de trabalho em 5 de dezembro de 2015. Jonas encontra-se impossibilitado de trabalhar por haver adquirido doença incapacitante. Considerando esses dados hipotéticos, julgue os itens que se seguem.",
+      "enunciado": "Paulo pode solicitar a revisão de sua aposentadoria até o dia 1.º de janeiro de 2026.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 76,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Decadência e prescrição",
+      "enunciado_contexto": "Paulo aposentou-se por invalidez em 5 de dezembro de 2015. Joaquim obteve, fraudulentamente, benefício previdenciário em 5 de dezembro de 2015. Matias sofreu acidente de trabalho em 5 de dezembro de 2015. Jonas encontra-se impossibilitado de trabalhar por haver adquirido doença incapacitante. Considerando esses dados hipotéticos, julgue os itens que se seguem.",
+      "enunciado": "Jonas deve solicitar o benefício previdenciário em até cinco anos, contados da data em que ele foi acometido pela doença incapacitante.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 77,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Decadência e prescrição",
+      "enunciado_contexto": "Paulo aposentou-se por invalidez em 5 de dezembro de 2015. Joaquim obteve, fraudulentamente, benefício previdenciário em 5 de dezembro de 2015. Matias sofreu acidente de trabalho em 5 de dezembro de 2015. Jonas encontra-se impossibilitado de trabalhar por haver adquirido doença incapacitante. Considerando esses dados hipotéticos, julgue os itens que se seguem.",
+      "enunciado": "A previdência social pode cassar o benefício de Joaquim até o dia 5 de dezembro de 2025.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 78,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Decadência e prescrição",
+      "enunciado_contexto": "Paulo aposentou-se por invalidez em 5 de dezembro de 2015. Joaquim obteve, fraudulentamente, benefício previdenciário em 5 de dezembro de 2015. Matias sofreu acidente de trabalho em 5 de dezembro de 2015. Jonas encontra-se impossibilitado de trabalhar por haver adquirido doença incapacitante. Considerando esses dados hipotéticos, julgue os itens que se seguem.",
+      "enunciado": "Matias pôde solicitar o benefício acidentário até o dia 5 de dezembro de 2020.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 79,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Crimes previdenciários",
+      "enunciado_contexto": "A empresa W descontou a contribuição previdenciária devida pelos trabalhadores e não a repassou à previdência social. A empresa X deixou de recolher as contribuições previdenciárias devidas, por estar passando por dificuldades financeiras. A empresa Y declarou salário de trabalhador inferior ao efetivamente pago, para reduzir contribuição previdenciária devida. A empresa Z pagou quantia anteriormente devida e subtraída à previdência social antes da prolação de sentença de primeiro grau. No que se refere a essas situações hipotéticas, julgue os seguintes itens.",
+      "enunciado": "A empresa W cometeu apropriação indébita previdenciária.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 80,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Crimes previdenciários",
+      "enunciado_contexto": "A empresa W descontou a contribuição previdenciária devida pelos trabalhadores e não a repassou à previdência social. A empresa X deixou de recolher as contribuições previdenciárias devidas, por estar passando por dificuldades financeiras. A empresa Y declarou salário de trabalhador inferior ao efetivamente pago, para reduzir contribuição previdenciária devida. A empresa Z pagou quantia anteriormente devida e subtraída à previdência social antes da prolação de sentença de primeiro grau. No que se refere a essas situações hipotéticas, julgue os seguintes itens.",
+      "enunciado": "A empresa X praticou o delito de sonegação previdenciária.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 81,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Crimes previdenciários",
+      "enunciado_contexto": "A empresa W descontou a contribuição previdenciária devida pelos trabalhadores e não a repassou à previdência social. A empresa X deixou de recolher as contribuições previdenciárias devidas, por estar passando por dificuldades financeiras. A empresa Y declarou salário de trabalhador inferior ao efetivamente pago, para reduzir contribuição previdenciária devida. A empresa Z pagou quantia anteriormente devida e subtraída à previdência social antes da prolação de sentença de primeiro grau. No que se refere a essas situações hipotéticas, julgue os seguintes itens.",
+      "enunciado": "A empresa Y cometeu o delito de sonegação previdenciária.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 82,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Crimes previdenciários",
+      "enunciado_contexto": "A empresa W descontou a contribuição previdenciária devida pelos trabalhadores e não a repassou à previdência social. A empresa X deixou de recolher as contribuições previdenciárias devidas, por estar passando por dificuldades financeiras. A empresa Y declarou salário de trabalhador inferior ao efetivamente pago, para reduzir contribuição previdenciária devida. A empresa Z pagou quantia anteriormente devida e subtraída à previdência social antes da prolação de sentença de primeiro grau. No que se refere a essas situações hipotéticas, julgue os seguintes itens.",
+      "enunciado": "A empresa Z tem direito à extinção da punibilidade, pelo pagamento da quantia anteriormente subtraída à previdência social.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 83,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Recursos administrativos",
+      "enunciado_contexto": "Com relação aos recursos das decisões administrativas no âmbito do procedimento previdenciário, julgue os itens subsequentes.",
+      "enunciado": "Compete ao Conselho de Recursos da Previdência Social julgar os recursos de ofício interpostos contra decisões que tenham anulado lançamento de crédito previdenciário.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 84,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Recursos administrativos",
+      "enunciado_contexto": "Com relação aos recursos das decisões administrativas no âmbito do procedimento previdenciário, julgue os itens subsequentes.",
+      "enunciado": "Compete ao Conselho de Recursos da Previdência Social julgar os recursos interpostos contra decisões proferidas em processos de supervisão e de fiscalização de regimes próprios de previdência social.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 85,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Recursos administrativos",
+      "enunciado_contexto": "Com relação aos recursos das decisões administrativas no âmbito do procedimento previdenciário, julgue os itens subsequentes.",
+      "enunciado": "Se o recorrente propuser ação com objeto idêntico ao do recurso interposto por ele perante o Conselho de Recursos da Previdência Social, será automática a sua desistência do recurso.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 86,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Plano de benefícios",
+      "enunciado_contexto": "No que diz respeito ao plano de benefícios da previdência social, julgue os itens a seguir.",
+      "enunciado": "Não faz jus à pensão por morte o pretenso beneficiário que tenha sido condenado criminalmente, por sentença transitada em julgado, pela prática de crime que tenha dolosamente causado a morte do segurado.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 87,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Plano de benefícios",
+      "enunciado_contexto": "No que diz respeito ao plano de benefícios da previdência social, julgue os itens a seguir.",
+      "enunciado": "É constitucional o reconhecimento do direito previdenciário à pensão por morte para a pessoa que tenha mantido, durante longo período e com aparência familiar, união com pessoa casada, porquanto o concubinato se equipara, para fins de proteção estatal, às uniões afetivas resultantes do casamento e da união estável.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 88,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Plano de benefícios",
+      "enunciado_contexto": "No que diz respeito ao plano de benefícios da previdência social, julgue os itens a seguir.",
+      "enunciado": "Para fins de concessão dos benefícios previdenciários e de contagem recíproca, é admitida a contagem de tempo de contribuição fictício.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 89,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Plano de benefícios",
+      "enunciado_contexto": "No que diz respeito ao plano de benefícios da previdência social, julgue os itens a seguir.",
+      "enunciado": "O valor do salário de benefício não pode ser inferior ao de um salário mínimo nem superior ao do limite máximo do salário de contribuição na data de início do benefício.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 90,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Plano de benefícios",
+      "enunciado_contexto": "No que diz respeito ao plano de benefícios da previdência social, julgue os itens a seguir.",
+      "enunciado": "O período de carência visa resguardar o equilíbrio financeiro e atuarial do sistema previdenciário.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 91,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Plano de benefícios",
+      "enunciado_contexto": "No que diz respeito ao plano de benefícios da previdência social, julgue os itens a seguir.",
+      "enunciado": "O salário de benefício do segurado que contribui em razão de atividades concomitantes é calculado com base na soma dos salários de contribuição das atividades exercidas na data do requerimento ou do óbito, ou no período básico de cálculo.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 92,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Qualidade de segurado",
+      "enunciado_contexto": "Quanto à manutenção, à perda e ao restabelecimento da qualidade de segurado, julgue os itens que se seguem.",
+      "enunciado": "Aquele que esteja em gozo de benefício, exceto do auxílio-acidente, perde a qualidade de segurado, independentemente de contribuições, sem limite de prazo.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 93,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Qualidade de segurado",
+      "enunciado_contexto": "Quanto à manutenção, à perda e ao restabelecimento da qualidade de segurado, julgue os itens que se seguem.",
+      "enunciado": "O segurado facultativo mantém essa qualidade por, no máximo, três meses após a cessação das contribuições.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 94,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Qualidade de segurado",
+      "enunciado_contexto": "Quanto à manutenção, à perda e ao restabelecimento da qualidade de segurado, julgue os itens que se seguem.",
+      "enunciado": "Durante o período de graça, o segurado conserva todos os direitos perante a previdência social.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 95,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Serviços previdenciários",
+      "enunciado_contexto": "Em relação aos serviços previdenciários, julgue os itens seguintes.",
+      "enunciado": "Ao serviço social compete esclarecer aos beneficiários seus direitos sociais e os meios de exercê-los, bem como estabelecer, juntamente com eles, o processo de solução dos problemas que emergirem da sua relação com a previdência social, no âmbito interno da instituição e na dinâmica da sociedade.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 96,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Serviços previdenciários",
+      "enunciado_contexto": "Em relação aos serviços previdenciários, julgue os itens seguintes.",
+      "enunciado": "Na hipótese de habilitação e reabilitação profissional, é vedada a concessão de auxílio para tratamento ou exame fora do domicílio do beneficiário.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 97,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Benefícios de legislações especiais",
+      "enunciado_contexto": "Acerca dos benefícios decorrentes de legislações especiais e do seguro defeso, julgue os próximos itens.",
+      "enunciado": "A pensão especial concedida às pessoas com deficiência física conhecida como síndrome da talidomida, ressalvado o direito à opção, é acumulável com rendimento ou remuneração que, a qualquer título, venha a ser pago pela União a seus beneficiários, salvo a indenização por dano moral concedida por lei específica.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 98,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Benefícios de legislações especiais",
+      "enunciado_contexto": "Acerca dos benefícios decorrentes de legislações especiais e do seguro defeso, julgue os próximos itens.",
+      "enunciado": "Os seringueiros que trabalharam nos seringais da região amazônica durante a Segunda Guerra Mundial, ainda que possuam meios para a sua subsistência e a da sua família, têm direito ao pagamento de pensão mensal vitalícia correspondente ao valor de dois salários mínimos vigentes no país.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 99,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Benefícios de legislações especiais",
+      "enunciado_contexto": "Acerca dos benefícios decorrentes de legislações especiais e do seguro defeso, julgue os próximos itens.",
+      "enunciado": "A pensão especial devida aos ex-combatentes da Segunda Guerra Mundial e a seus dependentes corresponde à pensão militar deixada por segundo-tenente das Forças Armadas.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 100,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Benefícios de legislações especiais",
+      "enunciado_contexto": "Acerca dos benefícios decorrentes de legislações especiais e do seguro defeso, julgue os próximos itens.",
+      "enunciado": "A pensão especial concedida às vítimas de hemodiálise de Caruaru não será transmitida aos seus sucessores.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 101,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Benefícios de legislações especiais",
+      "enunciado_contexto": "Acerca dos benefícios decorrentes de legislações especiais e do seguro defeso, julgue os próximos itens.",
+      "enunciado": "A pensão especial concedida às vítimas do acidente nuclear ocorrido em Goiânia – GO é transmissível ao cônjuge sobrevivente ou aos herdeiros, em caso de morte do beneficiário.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 102,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Benefícios de legislações especiais",
+      "enunciado_contexto": "Acerca dos benefícios decorrentes de legislações especiais e do seguro defeso, julgue os próximos itens.",
+      "enunciado": "O regime do anistiado político compreende, entre outros, o direito à reparação econômica, de caráter indenizatório, em prestação única ou mensal, permanente e continuada, sendo vedadas a readmissão e a promoção na inatividade.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 103,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Benefícios de legislações especiais",
+      "enunciado_contexto": "Acerca dos benefícios decorrentes de legislações especiais e do seguro defeso, julgue os próximos itens.",
+      "enunciado": "A pensão especial concedida às pessoas atingidas pela hanseníase, ressalvado o direito à opção, não é acumulável com indenizações que a União venha a pagar em decorrência de responsabilização civil sobre os mesmos fatos, bem como não impede a fruição de qualquer benefício previdenciário.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 104,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Benefícios de legislações especiais",
+      "enunciado_contexto": "Acerca dos benefícios decorrentes de legislações especiais e do seguro defeso, julgue os próximos itens.",
+      "enunciado": "A pensão especial destinada às crianças com síndrome congênita do zika vírus nascidas entre 1.º de janeiro de 2015 e 31 de dezembro de 2019 e beneficiárias do benefício de prestação continuada é mensal, vitalícia e intransferível, tendo o valor de um salário mínimo.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 105,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Seguro defeso",
+      "enunciado_contexto": "Acerca dos benefícios decorrentes de legislações especiais e do seguro defeso, julgue os próximos itens.",
+      "enunciado": "O seguro-desemprego concedido, durante o período de defeso, ao pescador profissional que exerce a atividade pesqueira de forma artesanal é transferível a outrem.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 106,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Seguridade social",
+      "enunciado_contexto": "A seguridade social compreende um conjunto integrado de ações de iniciativa dos poderes públicos e da sociedade, destinado a assegurar o direito relativo à saúde, à previdência e à assistência social. A esse respeito, julgue os itens a seguir.",
+      "enunciado": "São princípios da seguridade social a universalidade da cobertura e do atendimento, a seletividade e distributividade na prestação dos benefícios e serviços e a progressividade na forma de participação no custeio.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 107,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Seguridade social",
+      "enunciado_contexto": "A seguridade social compreende um conjunto integrado de ações de iniciativa dos poderes públicos e da sociedade, destinado a assegurar o direito relativo à saúde, à previdência e à assistência social. A esse respeito, julgue os itens a seguir.",
+      "enunciado": "O direito à saúde deve ser garantido mediante políticas sociais e econômicas que assegurem o acesso universal e igualitário às ações e aos serviços voltados para sua promoção, proteção e recuperação, promovidos por meio de rede regionalizada e hierarquizada e integrados em sistema único.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 108,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Seguridade social",
+      "enunciado_contexto": "A seguridade social compreende um conjunto integrado de ações de iniciativa dos poderes públicos e da sociedade, destinado a assegurar o direito relativo à saúde, à previdência e à assistência social. A esse respeito, julgue os itens a seguir.",
+      "enunciado": "A previdência social tem a finalidade de assegurar aos seus contribuintes a proteção em face de eventos como incapacidade, idade avançada, desemprego voluntário e reclusão ou morte daqueles de quem dependam economicamente.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 109,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Seguridade social",
+      "enunciado_contexto": "A seguridade social compreende um conjunto integrado de ações de iniciativa dos poderes públicos e da sociedade, destinado a assegurar o direito relativo à saúde, à previdência e à assistência social. A esse respeito, julgue os itens a seguir.",
+      "enunciado": "A assistência social será prestada a quem dela necessitar, independentemente de contribuição, a fim de garantir, entre outros objetivos, a proteção à maternidade, à infância e à pessoa com deficiência.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 110,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Seguridade social",
+      "enunciado_contexto": "A seguridade social compreende um conjunto integrado de ações de iniciativa dos poderes públicos e da sociedade, destinado a assegurar o direito relativo à saúde, à previdência e à assistência social. A esse respeito, julgue os itens a seguir.",
+      "enunciado": "A seguridade social será financiada por toda a sociedade, de forma direta e indireta, mediante recursos provenientes da União, dos estados, do Distrito Federal, dos municípios e de contribuições sociais como as incidentes sobre a receita de concursos de prognósticos.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 111,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "RGPS - Segurados e dependentes",
+      "enunciado_contexto": "Quanto ao Regime Geral de Previdência Social (RGPS), seus segurados e respectivos dependentes, julgue os próximos itens.",
+      "enunciado": "São segurados obrigatórios da previdência social o servidor público ocupante de cargo em comissão, sem vínculo efetivo com a União, com autarquias, inclusive em regime especial, e com fundações públicas federais, e a pessoa física que exerce, por conta própria, com finalidade de lucro, atividade econômica de natureza urbana.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 112,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "RGPS - Segurados e dependentes",
+      "enunciado_contexto": "Quanto ao Regime Geral de Previdência Social (RGPS), seus segurados e respectivos dependentes, julgue os próximos itens.",
+      "enunciado": "É vedada a filiação ao RGPS, na qualidade de segurado facultativo, de pessoa participante de regime próprio de previdência social, salvo na hipótese de afastamento sem vencimento e desde que não permitida, nesta condição, contribuição ao respectivo regime próprio.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 113,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "RGPS - Segurados e dependentes",
+      "enunciado_contexto": "Quanto ao Regime Geral de Previdência Social (RGPS), seus segurados e respectivos dependentes, julgue os próximos itens.",
+      "enunciado": "É beneficiário do RGPS, na condição de dependente do segurado, o filho não emancipado, de qualquer condição, menor de 24 anos de idade, desde que esteja matriculado em curso de ensino superior ou de escola técnica.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 114,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "RGPS - Segurados e dependentes",
+      "enunciado_contexto": "Quanto ao Regime Geral de Previdência Social (RGPS), seus segurados e respectivos dependentes, julgue os próximos itens.",
+      "enunciado": "O enteado, o menor sob guarda e o menor tutelado equiparam-se a filho do segurado, mediante declaração deste, desde que comprovada a dependência econômica.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 115,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "LOAS - Benefício de Prestação Continuada",
+      "enunciado_contexto": "No que diz respeito ao benefício de prestação continuada e ao auxílio-inclusão conforme as disposições da Lei Orgânica da Assistência Social (LOAS), julgue os itens subsecutivos.",
+      "enunciado": "A assistência social é regida pelo princípio da supremacia das exigências de rentabilidade econômica sobre o atendimento às necessidades sociais.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 116,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "LOAS - Benefício de Prestação Continuada",
+      "enunciado_contexto": "No que diz respeito ao benefício de prestação continuada e ao auxílio-inclusão conforme as disposições da Lei Orgânica da Assistência Social (LOAS), julgue os itens subsecutivos.",
+      "enunciado": "Observados os demais critérios de elegibilidade definidos na LOAS, terão direito ao benefício de prestação continuada a pessoa com deficiência ou a pessoa idosa com renda familiar mensal per capita igual ou inferior a um quarto do salário mínimo.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 117,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "LOAS - Benefício de Prestação Continuada",
+      "enunciado_contexto": "No que diz respeito ao benefício de prestação continuada e ao auxílio-inclusão conforme as disposições da Lei Orgânica da Assistência Social (LOAS), julgue os itens subsecutivos.",
+      "enunciado": "O pagamento do auxílio-inclusão não será acumulado com o pagamento do benefício de prestação continuada.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 118,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "LOAS - Benefício de Prestação Continuada",
+      "enunciado_contexto": "No que diz respeito ao benefício de prestação continuada e ao auxílio-inclusão conforme as disposições da Lei Orgânica da Assistência Social (LOAS), julgue os itens subsecutivos.",
+      "enunciado": "Compete ao INSS a operacionalização do benefício de prestação continuada.",
+      "gabarito": "C"
+    },
+    {
+      "numero": 119,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Certidão de tempo de contribuição",
+      "enunciado_contexto": "Em relação à certidão de tempo de contribuição, à contagem recíproca e à compensação previdenciária, julgue os itens a seguir.",
+      "enunciado": "É vedada a emissão de certidão de tempo de contribuição referente a períodos de contribuição posteriores à data da aposentadoria no RGPS.",
+      "gabarito": "E"
+    },
+    {
+      "numero": 120,
+      "disciplina": "Conhecimentos Específicos",
+      "assunto": "Compensação previdenciária",
+      "enunciado_contexto": "Em relação à certidão de tempo de contribuição, à contagem recíproca e à compensação previdenciária, julgue os itens a seguir.",
+      "enunciado": "A compensação financeira entre os regimes de previdência será realizada exclusivamente na contagem recíproca de tempo de contribuição não concomitante utilizado na concessão da aposentadoria.",
+      "gabarito": "C"
+    }
+];
+
+        let currentIndex = 0;
+        let score = 0;
+        let correctAnswers = 0;
+        let wrongAnswers = 0;
+        let timeLeft = 60;
+        let timerInterval = null;
+        let totalTime = 0;
+
+        function startQuiz() {
+            document.getElementById('startScreen').classList.add('hide');
+            document.getElementById('quizHeader').style.display = 'block';
+            document.getElementById('stats').style.display = 'grid';
+            document.getElementById('progressBar').style.display = 'block';
+            document.getElementById('questionArea').style.display = 'block';
+            loadQuestion();
+        }
+
+        function startTimer() {
+            timeLeft = 60;
+            document.getElementById('timer').textContent = timeLeft;
+            document.getElementById('timerBox').classList.remove('warning');
+            
+            clearInterval(timerInterval);
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                totalTime++;
+                document.getElementById('timer').textContent = timeLeft;
+                
+                if (timeLeft <= 10) {
+                    document.getElementById('timerBox').classList.add('warning');
+                }
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    autoSubmit();
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+
+        function autoSubmit() {
+            const q = questoes[currentIndex];
+            const buttons = document.querySelectorAll('.answer-btn');
+            const feedback = document.getElementById('feedback');
+            
+            buttons.forEach(btn => btn.classList.add('disabled'));
+            buttons[q.gabarito === 'C' ? 0 : 1].classList.add('correct');
+            
+            feedback.textContent = '⏰ Tempo esgotado! A resposta correta era: ' + (q.gabarito === 'C' ? 'CERTO' : 'ERRADO');
+            feedback.className = 'feedback wrong show';
+            wrongAnswers++;
+            
+            document.getElementById('nextBtn').classList.add('show');
+        }
+
+        function loadQuestion() {
+            const q = questoes[currentIndex];
+            
+            document.getElementById('questionNum').textContent = `Questão ${q.numero}`;
+            document.getElementById('subject').textContent = q.assunto;
+            document.getElementById('contextBox').textContent = q.enunciado_contexto;
+            document.getElementById('questionText').textContent = q.enunciado;
+            document.getElementById('currentQuestion').textContent = currentIndex + 1;
+            
+            // Resetar botões
+            const buttons = document.querySelectorAll('.answer-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('correct', 'wrong', 'disabled');
+            });
+            
+            document.getElementById('feedback').classList.remove('show');
+            document.getElementById('nextBtn').classList.remove('show');
+            
+            // Atualizar progresso
+            const progress = ((currentIndex + 1) / questoes.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            
+            // Iniciar timer
+            startTimer();
+        }
+
+        function checkAnswer(answer) {
+            stopTimer();
+            
+            const q = questoes[currentIndex];
+            const buttons = document.querySelectorAll('.answer-btn');
+            const feedback = document.getElementById('feedback');
+            
+            buttons.forEach(btn => btn.classList.add('disabled'));
+            
+            if (answer === q.gabarito) {
+                buttons[answer === 'C' ? 0 : 1].classList.add('correct');
+                
+                // Bônus de tempo
+                let bonus = 0;
+                if (timeLeft > 45) bonus = 5;
+                else if (timeLeft > 30) bonus = 3;
+                else if (timeLeft > 15) bonus = 1;
+                
+                const pointsEarned = 10 + bonus;
+                
+                feedback.textContent = bonus > 0 ? 
+                    `🎉 Parabéns! Resposta correta! (+${pointsEarned} pontos - Bônus de ${bonus} por velocidade!)` :
+                    '🎉 Parabéns! Resposta correta! (+10 pontos)';
+                feedback.className = 'feedback correct show';
+                correctAnswers++;
+                score += pointsEarned;
+                document.getElementById('correct').textContent = correctAnswers;
+                document.getElementById('score').textContent = score;
+            } else {
+                buttons[answer === 'C' ? 0 : 1].classList.add('wrong');
+                buttons[answer === 'C' ? 1 : 0].classList.add('correct');
+                feedback.textContent = `❌ Resposta incorreta! A resposta correta é: ${q.gabarito === 'C' ? 'CERTO' : 'ERRADO'}`;
+                feedback.className = 'feedback wrong show';
+                wrongAnswers++;
+            }
+            
+            document.getElementById('nextBtn').classList.add('show');
+        }
+
+        function nextQuestion() {
+            currentIndex++;
+            
+            if (currentIndex < questoes.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            stopTimer();
+            
+            document.getElementById('quizHeader').style.display = 'none';
+            document.getElementById('stats').style.display = 'none';
+            document.getElementById('progressBar').style.display = 'none';
+            document.getElementById('questionArea').style.display = 'none';
+            document.getElementById('resultScreen').classList.add('show');
+            
+            const percentage = ((correctAnswers / questoes.length) * 100).toFixed(1);
+            const avgTime = Math.floor(totalTime / questoes.length);
+            
+            document.getElementById('totalQuestions').textContent = questoes.length;
+            document.getElementById('finalCorrect').textContent = correctAnswers;
+            document.getElementById('finalWrong').textContent = wrongAnswers;
+            document.getElementById('percentage').textContent = percentage + '%';
+            document.getElementById('finalScore').textContent = score + ' pontos';
+            
+            // Emoji baseado no desempenho
+            let emoji = '🎉';
+            if (percentage >= 90) emoji = '🏆';
+            else if (percentage >= 70) emoji = '🎯';
+            else if (percentage >= 50) emoji = '👍';
+            else emoji = '📚';
+            
+            document.getElementById('resultEmoji').textContent = emoji;
+        }
+
+        function restartQuiz() {
+            stopTimer();
+            currentIndex = 0;
+            score = 0;
+            correctAnswers = 0;
+            wrongAnswers = 0;
+            totalTime = 0;
+            
+            document.getElementById('resultScreen').classList.remove('show');
+            document.getElementById('startScreen').classList.remove('hide');
+            document.getElementById('score').textContent = '0';
+            document.getElementById('correct').textContent = '0';
+        }
+    </script>
+</body>
+</html>
