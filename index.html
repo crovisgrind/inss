@@ -505,6 +505,7 @@
         </div>
     </div>
 
+    <script src="questoes.js"></script>
     <script>
         let currentIndex = 0;
         let score = 0;
@@ -516,23 +517,23 @@
         let shuffledQuestions = [];
         let questoes = [];
 
-        // Carregar questões do arquivo JSON
-        async function loadQuestionsFromFile() {
+        // Carregar questões do arquivo JS
+        function loadQuestionsFromFile() {
             try {
-                const response = await fetch('questoes.json');
-                if (!response.ok) {
-                    throw new Error('Erro ao carregar questões');
+                // As questões vêm do arquivo questoes.js
+                if (typeof questoesData !== 'undefined' && questoesData.questoes) {
+                    questoes = questoesData.questoes;
+                    
+                    // Atualizar informações do concurso na tela inicial
+                    updateConcursoInfo(questoesData.concurso);
+                    
+                    console.log(`✅ ${questoes.length} questões carregadas com sucesso!`);
+                } else {
+                    throw new Error('Arquivo questoes.js não encontrado ou inválido');
                 }
-                const data = await response.json();
-                questoes = data.questoes;
-                
-                // Atualizar informações do concurso na tela inicial
-                updateConcursoInfo(data.concurso);
-                
-                console.log(`✅ ${questoes.length} questões carregadas com sucesso!`);
             } catch (error) {
                 console.error('❌ Erro ao carregar questões:', error);
-                alert('Erro ao carregar as questões. Verifique se o arquivo questoes.json está na pasta correta.');
+                alert('Erro ao carregar as questões. Verifique se o arquivo questoes.js está na pasta correta.');
             }
         }
 
