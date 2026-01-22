@@ -370,7 +370,7 @@
             box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
         }
 
-        @media (max-width: 480px) {
+            @media (max-width: 480px) {
             .card {
                 padding: 20px;
             }
@@ -380,7 +380,7 @@
             }
 
             .stats {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
             }
 
             .question-text {
@@ -506,570 +506,6 @@
     </div>
 
     <script>
-        const questoes = [
-  
-    {
-      "numero": 51,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Fontes de legislação previdenciária",
-      "enunciado_contexto": "Acerca das fontes de legislação previdenciária, de sua organização e evolução histórica, julgue os itens que se seguem.",
-      "enunciado": "A Constituição Federal é considerada uma fonte formal primária do direito previdenciário brasileiro.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 52,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Fontes de legislação previdenciária",
-      "enunciado_contexto": "Acerca das fontes de legislação previdenciária, de sua organização e evolução histórica, julgue os itens que se seguem.",
-      "enunciado": "A Constituição outorgada por Getúlio Vargas em 1937, conhecida como Constituição Polaca, é considerada o marco do direito previdenciário brasileiro, pois foi ela que consolidou a legislação previdenciária no Brasil.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 53,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Fontes de legislação previdenciária",
-      "enunciado_contexto": "Acerca das fontes de legislação previdenciária, de sua organização e evolução histórica, julgue os itens que se seguem.",
-      "enunciado": "Os benefícios e serviços prestados pela seguridade social são exclusivos daqueles que participam do seu custeio.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 54,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Princípios da seguridade social",
-      "enunciado_contexto": "Em relação aos princípios da seguridade social, integração da legislação previdenciária e conceito de seguridade social, julgue os itens a seguir.",
-      "enunciado": "O princípio da seguridade social que estabelece que a contribuição social para o custeio do regime geral de previdência social deve ser proporcional à condição financeira dos seus contribuintes denomina-se equidade na forma de participação no custeio.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 55,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Princípios da seguridade social",
-      "enunciado_contexto": "Em relação aos princípios da seguridade social, integração da legislação previdenciária e conceito de seguridade social, julgue os itens a seguir.",
-      "enunciado": "A assistência social integra a seguridade social, cujos programas são coordenados e executados pelas esferas estadual e municipal, com recursos do orçamento da seguridade social, bem como por entidades beneficentes e de assistência social.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 56,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Princípios da seguridade social",
-      "enunciado_contexto": "Em relação aos princípios da seguridade social, integração da legislação previdenciária e conceito de seguridade social, julgue os itens a seguir.",
-      "enunciado": "Caso haja lacuna na legislação, o intérprete poderá valer-se de analogia, costumes e princípios gerais do direito como instrumentos integrativos para resolver questões referentes a matéria previdenciária.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 57,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Filiação e inscrição no RGPS",
-      "enunciado_contexto": "No que se refere à filiação e à inscrição no regime geral de previdência social (RGPS), julgue os itens subsequentes.",
-      "enunciado": "O dependente do segurado do regime geral de previdência social (RGPS) pode, nessa condição, efetuar a sua inscrição junto ao INSS no momento em que este tiver de se habilitar ao recebimento do benefício a que faz jus.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 58,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Filiação e inscrição no RGPS",
-      "enunciado_contexto": "No que se refere à filiação e à inscrição no regime geral de previdência social (RGPS), julgue os itens subsequentes.",
-      "enunciado": "Presentes os pressupostos da filiação, é admitida a inscrição post mortem de segurado contribuinte individual e de segurado facultativo, mas não é admitida a inscrição post mortem de segurado especial.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 59,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Filiação e inscrição no RGPS",
-      "enunciado_contexto": "No que se refere à filiação e à inscrição no regime geral de previdência social (RGPS), julgue os itens subsequentes.",
-      "enunciado": "Suponha que um estudante de quinze anos de idade pretenda se inscrever no regime geral de previdência social (RGPS) na condição de segurado facultativo. Nessa situação, a inscrição não será possível em decorrência da idade do estudante.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 60,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Aplicação da norma previdenciária",
-      "enunciado_contexto": "No que se refere à aplicação da norma previdenciária, à seguridade social e ao empregador doméstico, julgue os próximos itens.",
-      "enunciado": "Suponha que o Executivo federal tenha editado um decreto para regular matéria referente à criação de um novo benefício previdenciário e ao aumento da contribuição para arcar com o custeio do benefício criado. Nesse caso, tanto o segurado pode exigir a imediata concessão do benefício instituído quanto a previdência pode exigir o imediato pagamento da alíquota majorada.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 61,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Aplicação da norma previdenciária",
-      "enunciado_contexto": "No que se refere à aplicação da norma previdenciária, à seguridade social e ao empregador doméstico, julgue os próximos itens.",
-      "enunciado": "Suponha que um servidor público de carreira do Poder Judiciário de determinada unidade da Federação tenha sido nomeado para exercer um cargo em comissão junto a uma fundação pública federal, momento em que tenha optado por continuar recebendo remuneração do órgão em que exerça cargo efetivo. Nessa situação hipotética, em decorrência do cargo que passou a exercer na fundação pública, o referido servidor passa a integrar a condição de segurado obrigatório do RGPS.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 62,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Empregador doméstico",
-      "enunciado_contexto": "No que se refere à aplicação da norma previdenciária, à seguridade social e ao empregador doméstico, julgue os próximos itens.",
-      "enunciado": "Suponha que o proprietário de uma fazenda de produção de leite e gado de corte para o comércio local tenha contratado um indivíduo para exercer as funções de caseiro e gestor da fazenda. Nesse caso hipotético, para efeito previdenciário, o referido contratante é considerado empregador doméstico.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 63,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Contribuinte individual e segurado facultativo",
-      "enunciado_contexto": "A respeito do contribuinte individual, do segurado especial e do segurado facultativo, julgue os itens seguintes.",
-      "enunciado": "Suponha-se que, para complementar a renda familiar, Flávio, servidor público federal, exerça eventualmente atividade como motorista de aplicativo. Nessa situação hipotética, na condição de motorista de aplicativo, Flávio é considerado segurado obrigatório do RGPS.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 64,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Contribuinte individual e segurado facultativo",
-      "enunciado_contexto": "A respeito do contribuinte individual, do segurado especial e do segurado facultativo, julgue os itens seguintes.",
-      "enunciado": "Suponha-se que Pedro, após ter trabalhado como empregado contratado em determinada empresa privada por cerca de 20 anos, tenha deixado de exercer atividade remunerada e passado a se dedicar exclusivamente ao lar e a seus filhos, em razão de seu companheiro possuir renda para arcar com as despesas da família. Nesse caso hipotético, Pedro poderá manter o vínculo com o RGPS após o período de graça, desde que proceda à sua filiação na condição de segurado facultativo.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 65,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Contribuinte individual e segurado facultativo",
-      "enunciado_contexto": "A respeito do contribuinte individual, do segurado especial e do segurado facultativo, julgue os itens seguintes.",
-      "enunciado": "Suponha que Matilde, moradora no interior da Amazônia, utilizando-se de embarcação de pequeno porte, faça da pesca artesanal seu principal meio de vida. Nesse caso hipotético, para se filiar ao RGPS, Matilde poderá fazer a sua inscrição como segurada facultativa.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 66,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Financiamento da seguridade social",
-      "enunciado_contexto": "A respeito do financiamento da seguridade social, julgue os itens subsequentes.",
-      "enunciado": "A licença-prêmio indenizada integra o salário de contribuição, nos termos da legislação.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 67,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Financiamento da seguridade social",
-      "enunciado_contexto": "A respeito do financiamento da seguridade social, julgue os itens subsequentes.",
-      "enunciado": "As igrejas e os templos de qualquer culto são isentos de contribuições para a seguridade social.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 68,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Financiamento da seguridade social",
-      "enunciado_contexto": "A respeito do financiamento da seguridade social, julgue os itens subsequentes.",
-      "enunciado": "Os devedores da previdência social não podem receber benefícios ou incentivos fiscais ou creditícios do Estado.",
-      "gabarito": "X"
-    },
-    {
-      "numero": 69,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Financiamento da seguridade social",
-      "enunciado_contexto": "A respeito do financiamento da seguridade social, julgue os itens subsequentes.",
-      "enunciado": "Os contribuintes individual e facultativo podem optar pela alíquota de 11% incidente sobre o salário de contribuição caso renunciem ao direito à aposentadoria por tempo de contribuição.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 70,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Financiamento da seguridade social",
-      "enunciado_contexto": "A respeito do financiamento da seguridade social, julgue os itens subsequentes.",
-      "enunciado": "O percentual incidente sobre o resultado dos leilões dos bens apreendidos pelo Departamento da Receita Federal é fonte de receita da seguridade social, segundo a legislação.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 71,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Recolhimento e reajustamento de benefícios",
-      "enunciado_contexto": "Acerca do recolhimento e do reajustamento de benefícios, bem como das competências do INSS e da Secretaria da Receita Federal do Brasil, julgue os itens a seguir.",
-      "enunciado": "Os trabalhadores avulsos que prestam serviços a empresas e os contribuintes individual e facultativo devem recolher as contribuições à previdência social por conta própria.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 72,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Recolhimento e reajustamento de benefícios",
-      "enunciado_contexto": "Acerca do recolhimento e do reajustamento de benefícios, bem como das competências do INSS e da Secretaria da Receita Federal do Brasil, julgue os itens a seguir.",
-      "enunciado": "Compete ao INSS planejar, executar, acompanhar e avaliar as atividades relativas à tributação, à fiscalização, à arrecadação, à cobrança e ao recolhimento das contribuições previdenciárias.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 73,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Recolhimento e reajustamento de benefícios",
-      "enunciado_contexto": "Acerca do recolhimento e do reajustamento de benefícios, bem como das competências do INSS e da Secretaria da Receita Federal do Brasil, julgue os itens a seguir.",
-      "enunciado": "Os valores do salário de contribuição equivalem à renda mensal dos benefícios previdenciários.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 74,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Recolhimento e reajustamento de benefícios",
-      "enunciado_contexto": "Acerca do recolhimento e do reajustamento de benefícios, bem como das competências do INSS e da Secretaria da Receita Federal do Brasil, julgue os itens a seguir.",
-      "enunciado": "Os valores do salário de contribuição e dos benefícios de prestação continuada da previdência social são reajustados na mesma época e nos mesmos índices.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 75,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Decadência e prescrição",
-      "enunciado_contexto": "Paulo aposentou-se por invalidez em 5 de dezembro de 2015. Joaquim obteve, fraudulentamente, benefício previdenciário em 5 de dezembro de 2015. Matias sofreu acidente de trabalho em 5 de dezembro de 2015. Jonas encontra-se impossibilitado de trabalhar por haver adquirido doença incapacitante. Considerando esses dados hipotéticos, julgue os itens que se seguem.",
-      "enunciado": "Paulo pode solicitar a revisão de sua aposentadoria até o dia 1.º de janeiro de 2026.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 76,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Decadência e prescrição",
-      "enunciado_contexto": "Paulo aposentou-se por invalidez em 5 de dezembro de 2015. Joaquim obteve, fraudulentamente, benefício previdenciário em 5 de dezembro de 2015. Matias sofreu acidente de trabalho em 5 de dezembro de 2015. Jonas encontra-se impossibilitado de trabalhar por haver adquirido doença incapacitante. Considerando esses dados hipotéticos, julgue os itens que se seguem.",
-      "enunciado": "Jonas deve solicitar o benefício previdenciário em até cinco anos, contados da data em que ele foi acometido pela doença incapacitante.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 77,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Decadência e prescrição",
-      "enunciado_contexto": "Paulo aposentou-se por invalidez em 5 de dezembro de 2015. Joaquim obteve, fraudulentamente, benefício previdenciário em 5 de dezembro de 2015. Matias sofreu acidente de trabalho em 5 de dezembro de 2015. Jonas encontra-se impossibilitado de trabalhar por haver adquirido doença incapacitante. Considerando esses dados hipotéticos, julgue os itens que se seguem.",
-      "enunciado": "A previdência social pode cassar o benefício de Joaquim até o dia 5 de dezembro de 2025.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 78,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Decadência e prescrição",
-      "enunciado_contexto": "Paulo aposentou-se por invalidez em 5 de dezembro de 2015. Joaquim obteve, fraudulentamente, benefício previdenciário em 5 de dezembro de 2015. Matias sofreu acidente de trabalho em 5 de dezembro de 2015. Jonas encontra-se impossibilitado de trabalhar por haver adquirido doença incapacitante. Considerando esses dados hipotéticos, julgue os itens que se seguem.",
-      "enunciado": "Matias pôde solicitar o benefício acidentário até o dia 5 de dezembro de 2020.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 79,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Crimes previdenciários",
-      "enunciado_contexto": "A empresa W descontou a contribuição previdenciária devida pelos trabalhadores e não a repassou à previdência social. A empresa X deixou de recolher as contribuições previdenciárias devidas, por estar passando por dificuldades financeiras. A empresa Y declarou salário de trabalhador inferior ao efetivamente pago, para reduzir contribuição previdenciária devida. A empresa Z pagou quantia anteriormente devida e subtraída à previdência social antes da prolação de sentença de primeiro grau. No que se refere a essas situações hipotéticas, julgue os seguintes itens.",
-      "enunciado": "A empresa W cometeu apropriação indébita previdenciária.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 80,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Crimes previdenciários",
-      "enunciado_contexto": "A empresa W descontou a contribuição previdenciária devida pelos trabalhadores e não a repassou à previdência social. A empresa X deixou de recolher as contribuições previdenciárias devidas, por estar passando por dificuldades financeiras. A empresa Y declarou salário de trabalhador inferior ao efetivamente pago, para reduzir contribuição previdenciária devida. A empresa Z pagou quantia anteriormente devida e subtraída à previdência social antes da prolação de sentença de primeiro grau. No que se refere a essas situações hipotéticas, julgue os seguintes itens.",
-      "enunciado": "A empresa X praticou o delito de sonegação previdenciária.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 81,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Crimes previdenciários",
-      "enunciado_contexto": "A empresa W descontou a contribuição previdenciária devida pelos trabalhadores e não a repassou à previdência social. A empresa X deixou de recolher as contribuições previdenciárias devidas, por estar passando por dificuldades financeiras. A empresa Y declarou salário de trabalhador inferior ao efetivamente pago, para reduzir contribuição previdenciária devida. A empresa Z pagou quantia anteriormente devida e subtraída à previdência social antes da prolação de sentença de primeiro grau. No que se refere a essas situações hipotéticas, julgue os seguintes itens.",
-      "enunciado": "A empresa Y cometeu o delito de sonegação previdenciária.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 82,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Crimes previdenciários",
-      "enunciado_contexto": "A empresa W descontou a contribuição previdenciária devida pelos trabalhadores e não a repassou à previdência social. A empresa X deixou de recolher as contribuições previdenciárias devidas, por estar passando por dificuldades financeiras. A empresa Y declarou salário de trabalhador inferior ao efetivamente pago, para reduzir contribuição previdenciária devida. A empresa Z pagou quantia anteriormente devida e subtraída à previdência social antes da prolação de sentença de primeiro grau. No que se refere a essas situações hipotéticas, julgue os seguintes itens.",
-      "enunciado": "A empresa Z tem direito à extinção da punibilidade, pelo pagamento da quantia anteriormente subtraída à previdência social.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 83,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Recursos administrativos",
-      "enunciado_contexto": "Com relação aos recursos das decisões administrativas no âmbito do procedimento previdenciário, julgue os itens subsequentes.",
-      "enunciado": "Compete ao Conselho de Recursos da Previdência Social julgar os recursos de ofício interpostos contra decisões que tenham anulado lançamento de crédito previdenciário.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 84,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Recursos administrativos",
-      "enunciado_contexto": "Com relação aos recursos das decisões administrativas no âmbito do procedimento previdenciário, julgue os itens subsequentes.",
-      "enunciado": "Compete ao Conselho de Recursos da Previdência Social julgar os recursos interpostos contra decisões proferidas em processos de supervisão e de fiscalização de regimes próprios de previdência social.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 85,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Recursos administrativos",
-      "enunciado_contexto": "Com relação aos recursos das decisões administrativas no âmbito do procedimento previdenciário, julgue os itens subsequentes.",
-      "enunciado": "Se o recorrente propuser ação com objeto idêntico ao do recurso interposto por ele perante o Conselho de Recursos da Previdência Social, será automática a sua desistência do recurso.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 86,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Plano de benefícios",
-      "enunciado_contexto": "No que diz respeito ao plano de benefícios da previdência social, julgue os itens a seguir.",
-      "enunciado": "Não faz jus à pensão por morte o pretenso beneficiário que tenha sido condenado criminalmente, por sentença transitada em julgado, pela prática de crime que tenha dolosamente causado a morte do segurado.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 87,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Plano de benefícios",
-      "enunciado_contexto": "No que diz respeito ao plano de benefícios da previdência social, julgue os itens a seguir.",
-      "enunciado": "É constitucional o reconhecimento do direito previdenciário à pensão por morte para a pessoa que tenha mantido, durante longo período e com aparência familiar, união com pessoa casada, porquanto o concubinato se equipara, para fins de proteção estatal, às uniões afetivas resultantes do casamento e da união estável.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 88,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Plano de benefícios",
-      "enunciado_contexto": "No que diz respeito ao plano de benefícios da previdência social, julgue os itens a seguir.",
-      "enunciado": "Para fins de concessão dos benefícios previdenciários e de contagem recíproca, é admitida a contagem de tempo de contribuição fictício.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 89,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Plano de benefícios",
-      "enunciado_contexto": "No que diz respeito ao plano de benefícios da previdência social, julgue os itens a seguir.",
-      "enunciado": "O valor do salário de benefício não pode ser inferior ao de um salário mínimo nem superior ao do limite máximo do salário de contribuição na data de início do benefício.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 90,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Plano de benefícios",
-      "enunciado_contexto": "No que diz respeito ao plano de benefícios da previdência social, julgue os itens a seguir.",
-      "enunciado": "O período de carência visa resguardar o equilíbrio financeiro e atuarial do sistema previdenciário.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 91,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Plano de benefícios",
-      "enunciado_contexto": "No que diz respeito ao plano de benefícios da previdência social, julgue os itens a seguir.",
-      "enunciado": "O salário de benefício do segurado que contribui em razão de atividades concomitantes é calculado com base na soma dos salários de contribuição das atividades exercidas na data do requerimento ou do óbito, ou no período básico de cálculo.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 92,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Qualidade de segurado",
-      "enunciado_contexto": "Quanto à manutenção, à perda e ao restabelecimento da qualidade de segurado, julgue os itens que se seguem.",
-      "enunciado": "Aquele que esteja em gozo de benefício, exceto do auxílio-acidente, perde a qualidade de segurado, independentemente de contribuições, sem limite de prazo.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 93,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Qualidade de segurado",
-      "enunciado_contexto": "Quanto à manutenção, à perda e ao restabelecimento da qualidade de segurado, julgue os itens que se seguem.",
-      "enunciado": "O segurado facultativo mantém essa qualidade por, no máximo, três meses após a cessação das contribuições.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 94,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Qualidade de segurado",
-      "enunciado_contexto": "Quanto à manutenção, à perda e ao restabelecimento da qualidade de segurado, julgue os itens que se seguem.",
-      "enunciado": "Durante o período de graça, o segurado conserva todos os direitos perante a previdência social.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 95,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Serviços previdenciários",
-      "enunciado_contexto": "Em relação aos serviços previdenciários, julgue os itens seguintes.",
-      "enunciado": "Ao serviço social compete esclarecer aos beneficiários seus direitos sociais e os meios de exercê-los, bem como estabelecer, juntamente com eles, o processo de solução dos problemas que emergirem da sua relação com a previdência social, no âmbito interno da instituição e na dinâmica da sociedade.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 96,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Serviços previdenciários",
-      "enunciado_contexto": "Em relação aos serviços previdenciários, julgue os itens seguintes.",
-      "enunciado": "Na hipótese de habilitação e reabilitação profissional, é vedada a concessão de auxílio para tratamento ou exame fora do domicílio do beneficiário.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 97,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Benefícios de legislações especiais",
-      "enunciado_contexto": "Acerca dos benefícios decorrentes de legislações especiais e do seguro defeso, julgue os próximos itens.",
-      "enunciado": "A pensão especial concedida às pessoas com deficiência física conhecida como síndrome da talidomida, ressalvado o direito à opção, é acumulável com rendimento ou remuneração que, a qualquer título, venha a ser pago pela União a seus beneficiários, salvo a indenização por dano moral concedida por lei específica.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 98,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Benefícios de legislações especiais",
-      "enunciado_contexto": "Acerca dos benefícios decorrentes de legislações especiais e do seguro defeso, julgue os próximos itens.",
-      "enunciado": "Os seringueiros que trabalharam nos seringais da região amazônica durante a Segunda Guerra Mundial, ainda que possuam meios para a sua subsistência e a da sua família, têm direito ao pagamento de pensão mensal vitalícia correspondente ao valor de dois salários mínimos vigentes no país.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 99,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Benefícios de legislações especiais",
-      "enunciado_contexto": "Acerca dos benefícios decorrentes de legislações especiais e do seguro defeso, julgue os próximos itens.",
-      "enunciado": "A pensão especial devida aos ex-combatentes da Segunda Guerra Mundial e a seus dependentes corresponde à pensão militar deixada por segundo-tenente das Forças Armadas.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 100,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Benefícios de legislações especiais",
-      "enunciado_contexto": "Acerca dos benefícios decorrentes de legislações especiais e do seguro defeso, julgue os próximos itens.",
-      "enunciado": "A pensão especial concedida às vítimas de hemodiálise de Caruaru não será transmitida aos seus sucessores.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 101,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Benefícios de legislações especiais",
-      "enunciado_contexto": "Acerca dos benefícios decorrentes de legislações especiais e do seguro defeso, julgue os próximos itens.",
-      "enunciado": "A pensão especial concedida às vítimas do acidente nuclear ocorrido em Goiânia – GO é transmissível ao cônjuge sobrevivente ou aos herdeiros, em caso de morte do beneficiário.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 102,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Benefícios de legislações especiais",
-      "enunciado_contexto": "Acerca dos benefícios decorrentes de legislações especiais e do seguro defeso, julgue os próximos itens.",
-      "enunciado": "O regime do anistiado político compreende, entre outros, o direito à reparação econômica, de caráter indenizatório, em prestação única ou mensal, permanente e continuada, sendo vedadas a readmissão e a promoção na inatividade.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 103,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Benefícios de legislações especiais",
-      "enunciado_contexto": "Acerca dos benefícios decorrentes de legislações especiais e do seguro defeso, julgue os próximos itens.",
-      "enunciado": "A pensão especial concedida às pessoas atingidas pela hanseníase, ressalvado o direito à opção, não é acumulável com indenizações que a União venha a pagar em decorrência de responsabilização civil sobre os mesmos fatos, bem como não impede a fruição de qualquer benefício previdenciário.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 104,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Benefícios de legislações especiais",
-      "enunciado_contexto": "Acerca dos benefícios decorrentes de legislações especiais e do seguro defeso, julgue os próximos itens.",
-      "enunciado": "A pensão especial destinada às crianças com síndrome congênita do zika vírus nascidas entre 1.º de janeiro de 2015 e 31 de dezembro de 2019 e beneficiárias do benefício de prestação continuada é mensal, vitalícia e intransferível, tendo o valor de um salário mínimo.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 105,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Seguro defeso",
-      "enunciado_contexto": "Acerca dos benefícios decorrentes de legislações especiais e do seguro defeso, julgue os próximos itens.",
-      "enunciado": "O seguro-desemprego concedido, durante o período de defeso, ao pescador profissional que exerce a atividade pesqueira de forma artesanal é transferível a outrem.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 106,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Seguridade social",
-      "enunciado_contexto": "A seguridade social compreende um conjunto integrado de ações de iniciativa dos poderes públicos e da sociedade, destinado a assegurar o direito relativo à saúde, à previdência e à assistência social. A esse respeito, julgue os itens a seguir.",
-      "enunciado": "São princípios da seguridade social a universalidade da cobertura e do atendimento, a seletividade e distributividade na prestação dos benefícios e serviços e a progressividade na forma de participação no custeio.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 107,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Seguridade social",
-      "enunciado_contexto": "A seguridade social compreende um conjunto integrado de ações de iniciativa dos poderes públicos e da sociedade, destinado a assegurar o direito relativo à saúde, à previdência e à assistência social. A esse respeito, julgue os itens a seguir.",
-      "enunciado": "O direito à saúde deve ser garantido mediante políticas sociais e econômicas que assegurem o acesso universal e igualitário às ações e aos serviços voltados para sua promoção, proteção e recuperação, promovidos por meio de rede regionalizada e hierarquizada e integrados em sistema único.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 108,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Seguridade social",
-      "enunciado_contexto": "A seguridade social compreende um conjunto integrado de ações de iniciativa dos poderes públicos e da sociedade, destinado a assegurar o direito relativo à saúde, à previdência e à assistência social. A esse respeito, julgue os itens a seguir.",
-      "enunciado": "A previdência social tem a finalidade de assegurar aos seus contribuintes a proteção em face de eventos como incapacidade, idade avançada, desemprego voluntário e reclusão ou morte daqueles de quem dependam economicamente.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 109,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Seguridade social",
-      "enunciado_contexto": "A seguridade social compreende um conjunto integrado de ações de iniciativa dos poderes públicos e da sociedade, destinado a assegurar o direito relativo à saúde, à previdência e à assistência social. A esse respeito, julgue os itens a seguir.",
-      "enunciado": "A assistência social será prestada a quem dela necessitar, independentemente de contribuição, a fim de garantir, entre outros objetivos, a proteção à maternidade, à infância e à pessoa com deficiência.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 110,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Seguridade social",
-      "enunciado_contexto": "A seguridade social compreende um conjunto integrado de ações de iniciativa dos poderes públicos e da sociedade, destinado a assegurar o direito relativo à saúde, à previdência e à assistência social. A esse respeito, julgue os itens a seguir.",
-      "enunciado": "A seguridade social será financiada por toda a sociedade, de forma direta e indireta, mediante recursos provenientes da União, dos estados, do Distrito Federal, dos municípios e de contribuições sociais como as incidentes sobre a receita de concursos de prognósticos.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 111,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "RGPS - Segurados e dependentes",
-      "enunciado_contexto": "Quanto ao Regime Geral de Previdência Social (RGPS), seus segurados e respectivos dependentes, julgue os próximos itens.",
-      "enunciado": "São segurados obrigatórios da previdência social o servidor público ocupante de cargo em comissão, sem vínculo efetivo com a União, com autarquias, inclusive em regime especial, e com fundações públicas federais, e a pessoa física que exerce, por conta própria, com finalidade de lucro, atividade econômica de natureza urbana.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 112,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "RGPS - Segurados e dependentes",
-      "enunciado_contexto": "Quanto ao Regime Geral de Previdência Social (RGPS), seus segurados e respectivos dependentes, julgue os próximos itens.",
-      "enunciado": "É vedada a filiação ao RGPS, na qualidade de segurado facultativo, de pessoa participante de regime próprio de previdência social, salvo na hipótese de afastamento sem vencimento e desde que não permitida, nesta condição, contribuição ao respectivo regime próprio.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 113,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "RGPS - Segurados e dependentes",
-      "enunciado_contexto": "Quanto ao Regime Geral de Previdência Social (RGPS), seus segurados e respectivos dependentes, julgue os próximos itens.",
-      "enunciado": "É beneficiário do RGPS, na condição de dependente do segurado, o filho não emancipado, de qualquer condição, menor de 24 anos de idade, desde que esteja matriculado em curso de ensino superior ou de escola técnica.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 114,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "RGPS - Segurados e dependentes",
-      "enunciado_contexto": "Quanto ao Regime Geral de Previdência Social (RGPS), seus segurados e respectivos dependentes, julgue os próximos itens.",
-      "enunciado": "O enteado, o menor sob guarda e o menor tutelado equiparam-se a filho do segurado, mediante declaração deste, desde que comprovada a dependência econômica.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 115,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "LOAS - Benefício de Prestação Continuada",
-      "enunciado_contexto": "No que diz respeito ao benefício de prestação continuada e ao auxílio-inclusão conforme as disposições da Lei Orgânica da Assistência Social (LOAS), julgue os itens subsecutivos.",
-      "enunciado": "A assistência social é regida pelo princípio da supremacia das exigências de rentabilidade econômica sobre o atendimento às necessidades sociais.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 116,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "LOAS - Benefício de Prestação Continuada",
-      "enunciado_contexto": "No que diz respeito ao benefício de prestação continuada e ao auxílio-inclusão conforme as disposições da Lei Orgânica da Assistência Social (LOAS), julgue os itens subsecutivos.",
-      "enunciado": "Observados os demais critérios de elegibilidade definidos na LOAS, terão direito ao benefício de prestação continuada a pessoa com deficiência ou a pessoa idosa com renda familiar mensal per capita igual ou inferior a um quarto do salário mínimo.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 117,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "LOAS - Benefício de Prestação Continuada",
-      "enunciado_contexto": "No que diz respeito ao benefício de prestação continuada e ao auxílio-inclusão conforme as disposições da Lei Orgânica da Assistência Social (LOAS), julgue os itens subsecutivos.",
-      "enunciado": "O pagamento do auxílio-inclusão não será acumulado com o pagamento do benefício de prestação continuada.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 118,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "LOAS - Benefício de Prestação Continuada",
-      "enunciado_contexto": "No que diz respeito ao benefício de prestação continuada e ao auxílio-inclusão conforme as disposições da Lei Orgânica da Assistência Social (LOAS), julgue os itens subsecutivos.",
-      "enunciado": "Compete ao INSS a operacionalização do benefício de prestação continuada.",
-      "gabarito": "C"
-    },
-    {
-      "numero": 119,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Certidão de tempo de contribuição",
-      "enunciado_contexto": "Em relação à certidão de tempo de contribuição, à contagem recíproca e à compensação previdenciária, julgue os itens a seguir.",
-      "enunciado": "É vedada a emissão de certidão de tempo de contribuição referente a períodos de contribuição posteriores à data da aposentadoria no RGPS.",
-      "gabarito": "E"
-    },
-    {
-      "numero": 120,
-      "disciplina": "Conhecimentos Específicos",
-      "assunto": "Compensação previdenciária",
-      "enunciado_contexto": "Em relação à certidão de tempo de contribuição, à contagem recíproca e à compensação previdenciária, julgue os itens a seguir.",
-      "enunciado": "A compensação financeira entre os regimes de previdência será realizada exclusivamente na contagem recíproca de tempo de contribuição não concomitante utilizado na concessão da aposentadoria.",
-      "gabarito": "C"
-    }
-];
-
         let currentIndex = 0;
         let score = 0;
         let correctAnswers = 0;
@@ -1077,8 +513,64 @@
         let timeLeft = 60;
         let timerInterval = null;
         let totalTime = 0;
+        let shuffledQuestions = [];
+        let questoes = [];
+
+        // Carregar questões do arquivo JSON
+        async function loadQuestionsFromFile() {
+            try {
+                const response = await fetch('questoes.json');
+                if (!response.ok) {
+                    throw new Error('Erro ao carregar questões');
+                }
+                const data = await response.json();
+                questoes = data.questoes;
+                
+                // Atualizar informações do concurso na tela inicial
+                updateConcursoInfo(data.concurso);
+                
+                console.log(`✅ ${questoes.length} questões carregadas com sucesso!`);
+            } catch (error) {
+                console.error('❌ Erro ao carregar questões:', error);
+                alert('Erro ao carregar as questões. Verifique se o arquivo questoes.json está na pasta correta.');
+            }
+        }
+
+        function updateConcursoInfo(concurso) {
+            const description = document.querySelector('.start-description');
+            if (description && concurso) {
+                description.innerHTML = `
+                    Teste seus conhecimentos com ${questoes.length} questões de Conhecimentos Específicos do concurso ${concurso.instituicao} (${concurso.banca}).
+                    <br><br>
+                    <strong>Cargo:</strong> ${concurso.cargo}<br>
+                    <strong>Formato:</strong> Certo ou Errado<br>
+                    <strong>Pontuação:</strong> +10 pontos por acerto (+ bônus por velocidade)
+                `;
+            }
+        }
+
+        // Carregar questões quando a página carregar
+        window.addEventListener('DOMContentLoaded', loadQuestionsFromFile);
+
+        // Função para embaralhar array
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
 
         function startQuiz() {
+            if (questoes.length === 0) {
+                alert('Aguarde o carregamento das questões...');
+                return;
+            }
+            
+            // Embaralhar questões
+            shuffledQuestions = shuffleArray(questoes);
+            
             document.getElementById('startScreen').classList.add('hide');
             document.getElementById('quizHeader').style.display = 'block';
             document.getElementById('stats').style.display = 'grid';
@@ -1115,7 +607,7 @@
         }
 
         function autoSubmit() {
-            const q = questoes[currentIndex];
+            const q = shuffledQuestions[currentIndex];
             const buttons = document.querySelectorAll('.answer-btn');
             const feedback = document.getElementById('feedback');
             
@@ -1130,7 +622,7 @@
         }
 
         function loadQuestion() {
-            const q = questoes[currentIndex];
+            const q = shuffledQuestions[currentIndex];
             
             document.getElementById('questionNum').textContent = `Questão ${q.numero}`;
             document.getElementById('subject').textContent = q.assunto;
@@ -1148,7 +640,7 @@
             document.getElementById('nextBtn').classList.remove('show');
             
             // Atualizar progresso
-            const progress = ((currentIndex + 1) / questoes.length) * 100;
+            const progress = ((currentIndex + 1) / shuffledQuestions.length) * 100;
             document.getElementById('progressFill').style.width = progress + '%';
             
             // Iniciar timer
@@ -1158,7 +650,7 @@
         function checkAnswer(answer) {
             stopTimer();
             
-            const q = questoes[currentIndex];
+            const q = shuffledQuestions[currentIndex];
             const buttons = document.querySelectorAll('.answer-btn');
             const feedback = document.getElementById('feedback');
             
@@ -1197,7 +689,7 @@
         function nextQuestion() {
             currentIndex++;
             
-            if (currentIndex < questoes.length) {
+            if (currentIndex < shuffledQuestions.length) {
                 loadQuestion();
             } else {
                 showResults();
@@ -1213,10 +705,10 @@
             document.getElementById('questionArea').style.display = 'none';
             document.getElementById('resultScreen').classList.add('show');
             
-            const percentage = ((correctAnswers / questoes.length) * 100).toFixed(1);
-            const avgTime = Math.floor(totalTime / questoes.length);
+            const percentage = ((correctAnswers / shuffledQuestions.length) * 100).toFixed(1);
+            const avgTime = Math.floor(totalTime / shuffledQuestions.length);
             
-            document.getElementById('totalQuestions').textContent = questoes.length;
+            document.getElementById('totalQuestions').textContent = shuffledQuestions.length;
             document.getElementById('finalCorrect').textContent = correctAnswers;
             document.getElementById('finalWrong').textContent = wrongAnswers;
             document.getElementById('percentage').textContent = percentage + '%';
